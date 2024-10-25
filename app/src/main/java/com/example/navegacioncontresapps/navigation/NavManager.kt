@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.navegacioncontresapps.ContentDesc
 import com.example.navegacioncontresapps.views.DYView
+import com.example.navegacioncontresapps.views.HomeView
 import com.example.navegacioncontresapps.views.LotoView
 
 
@@ -14,7 +15,7 @@ fun NavManager(){
     val navController = rememberNavController()
     NavHost(navController = navController , startDestination = "Home"){
         composable("Home"){
-
+            HomeView(navController)
         }
 
         composable("DY"){
