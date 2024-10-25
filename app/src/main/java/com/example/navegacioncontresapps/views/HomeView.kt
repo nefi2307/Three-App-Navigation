@@ -68,7 +68,7 @@ fun ContentHomeView(navController: NavController) {
                     mSelectedText = option
                     navController.navigate(viewSelector(option))
                 },
-                modifier = Modifier
+                modifier = Modifier//
                     .fillMaxWidth()
                     .padding(vertical = 8.dp) // Espaciado entre botones
             ) {
