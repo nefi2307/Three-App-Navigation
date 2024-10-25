@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,12 +23,6 @@ import com.example.navegacioncontresapps.components.MainButton
 import com.example.navegacioncontresapps.components.Space
 import com.example.navegacioncontresapps.components.TitleBar
 import com.example.navegacioncontresapps.components.TitleView
-import com.example.navegacioncontresapps.components.ActionButton
-import com.example.navegacioncontresapps.components.MainButton
-import com.example.navegacioncontresapps.components.Space
-import com.example.navegacioncontresapps.components.TitleBar
-import com.example.navegacioncontresapps.components.TitleView
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,8 +48,7 @@ fun HomeView(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContentHomeView(navController: NavController) {
-    var mExpanded by remember { mutableStateOf(false) }
-    var mSelectedText by remember { mutableStateOf("Seleccione una app: ") }
+    var mSelectedText by remember { mutableStateOf("Choose an app ") }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -67,49 +58,31 @@ fun ContentHomeView(navController: NavController) {
         TitleView(name = "Home View")
         Space()
 
-        Button(onClick = { mExpanded = !mExpanded}){
+        Text(text = mSelectedText)
 
-            Text(text = mSelectedText)
-
-        }
-
-        DropdownMenu(expanded = mExpanded,
-            onDismissRequest = { mExpanded = false },
-            modifier = Modifier.fillMaxWidth()) {
-
-            val mApps = listOf("Dog Years", "Descuentos", "Loteria")
-
-            mApps.forEach(){ option ->
-
-                DropdownMenuItem(text = { Text(option) },
-                    onClick = {
-                        mSelectedText = option
-                        mExpanded = false
-                    })
-
+        // Lista de botones en lugar de DropdownMenu
+        val mApps = listOf("Dog Years", "Discount", "Loteria")
+        mApps.forEach { option ->
+            Button(
+                onClick = {
+                    mSelectedText = option
+                    navController.navigate(viewSelector(option))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp) // Espaciado entre botones
+            ) {
+                Text(text = option)
             }
-
-        }
-
-
-
-        MainButton(name = "Continuar", backColor = Color.Red, color = Color.White) {
-            navController.navigate(viewSelector(mSelectedText))
         }
     }
 }
 
-fun viewSelector(selectedText: String):String{
-    var texto = ""
-
-    when(selectedText){
-        "Dog Years" -> texto="DY"
-        "Descuentos" -> texto="Descuentos"
-        "Loteria" -> texto="Loto"
-        else -> texto="Home"
+fun viewSelector(selectedText: String): String {
+    return when (selectedText) {
+        "Dog Years" -> "DY"
+        "Descuentos" -> "ContentDesc"
+        "Loteria" -> "Loto"
+        else -> "Home"
     }
-
-
-    return texto
-
 }
